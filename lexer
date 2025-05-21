@@ -1,0 +1,4 @@
+Create enum for types
+get input as string
+for now, print only token types
+later, use previous/current token type IN THE PARSER
