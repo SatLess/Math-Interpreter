@@ -1,0 +1,5 @@
+Grammar for parser:
+
+<expression>: <expression> + <factor> | <expression> - <factor> | <factor>
+
+<factor>: <factor>/ <digit> |  <factor> * <digit> | <digit> | (<expression>) | [<expression>]
