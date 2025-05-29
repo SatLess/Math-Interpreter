@@ -3,3 +3,9 @@ Grammar for parser:
 <expression>: <expression> + <factor> | <expression> - <factor> | <factor>
 
 <factor>: <factor>/ <digit> |  <factor> * <digit> | <digit> | (<expression>) | [<expression>]
+
+AST for parser:
+
+<expression> <operator> <expression>
+
+<expression>: <digit> | (<expression>) | [<expression>] | <expression> <operator> <expression>
