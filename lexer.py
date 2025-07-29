@@ -31,18 +31,16 @@ class Token:
         return self.token_type == (Token_Type.PLUS or Token_Type.MINUS or Token_Type. MULTIPLY or Token_Type.DIVIDE)
 
 
-#Actualy transforms shit into tokens
+#Actualy transforms sruff into tokens
 class Lexer:
-    source_code = ""
-    source_size = 0
-    cursor_pos = 0
-    token_list: list[Token] = []
-
     def __init__(self, p_code):
+        self.source_code = ""
+        self.source_size = 0
+        self.cursor_pos = 0
+        self.token_list: list[Token] = []
         self.source_code = p_code
         self.source_size = len(p_code)
         self.__generate_tokens()
-       # self.print_tokens()
         
     
     def advance(self):

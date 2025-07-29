@@ -42,11 +42,7 @@ class Interpreter:
         
         else:
             raise Exception("Something wrong")
+        
 
-
-a = Lexer("-16.69 - -[10 - 5 * (4*4)]")
-b = Parser(a.token_list)
-c = Interpreter(b.expressionNode)
-print(c.result)
 
     

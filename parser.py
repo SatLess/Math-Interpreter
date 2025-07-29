@@ -118,8 +118,3 @@ class Parser:
         if(node == None): return ''
         else: 
             return self.printExpression(node.left) + '' + node.value  + '' + self.printExpression(node.right) 
-
-# a = Lexer("10 + [(2 + 1) * [9 / 10]]")
-# b = Parser(a.token_list)
-
-#print(b.printExpression(b.expressionNode))
