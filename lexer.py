@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 WHITESPACE = ' \n\t'
 DIGITS = '0123456789.' ##TODO add support for '.' one day
 OPERATORS = '+-*/' 
@@ -21,21 +20,23 @@ class Token_Type(Enum):
     DIVIDE = 10
 
 class Token:
-    token_type = -1
+    token_type: Token_Type
     lexeme = "" #the symbol that is typed and tokenized
     
     def __init__(self, type, lexeme):
         self.token_type = type
         self.lexeme = lexeme
+    
+    def is_operator(self) -> bool:
+        return self.token_type == (Token_Type.PLUS or Token_Type.MINUS or Token_Type. MULTIPLY or Token_Type.DIVIDE)
 
 
 #Actualy transforms shit into tokens
 class Lexer:
     source_code = ""
-    digit_lexeme = "" #For now that'll append digit for us 
     source_size = 0
     cursor_pos = 0
-    token_list: list = []
+    token_list: list[Token] = []
 
     def __init__(self, p_code):
         self.source_code = p_code
@@ -57,22 +58,26 @@ class Lexer:
     def __generate_tokens(self):
         while self.cursor_pos < self.source_size:
             c = self.advance()
-            type = self.__match_token_type(c)
-            token: Token
-
             if c in WHITESPACE: continue
+
+            type = self.__match_token_type(c)
+            if type == None: raise Exception("Why girls?")
+
+            token: Token
 
             if type == Token_Type.DIGITS:
                 digits = c
+                hasDot = False
                 next_digit = self.get_current_char()
                 while self.__match_token_type(next_digit) == Token_Type.DIGITS:
+                    if(next_digit == '.'):
+                        if(hasDot): raise Exception("Nao pode mais que um ponto")
+                        else: hasDot = True
                     digits += next_digit
                     c = self.advance()
                     next_digit = self.get_current_char()
+                if(digits[len(digits) - 1] == '.'): digits += '0'
                 token = Token(type,digits)
-            
-            elif type == None:
-                raise Exception("Why girls?")
 
             else: token = Token(type,c)
 
@@ -100,8 +105,8 @@ class Lexer:
     def print_tokens(self):
         for i in self.token_list:
             print(i.lexeme)
-        
-test = Lexer("123 + 789 - (2 * 3)")
 
+
+a = Lexer("2.26 + 6.")
         
     
