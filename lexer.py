@@ -107,6 +107,5 @@ class Lexer:
             print(i.lexeme)
 
 
-a = Lexer("2.26 + 6.")
         
     
