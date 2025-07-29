@@ -42,7 +42,7 @@ class Lexer:
         self.source_code = p_code
         self.source_size = len(p_code)
         self.__generate_tokens()
-        self.print_tokens()
+       # self.print_tokens()
         
     
     def advance(self):

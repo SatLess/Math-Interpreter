@@ -34,10 +34,13 @@ class FactorNode (Node):
     def is_multiplication(self) -> bool:
         return self.value == '*'
 
+class NegativeNode:
+    def __init__(self, term):
+        self.term = term
+
 class TermNode (Node):
-    def __init__(self, value, left, right, isNegative):
+    def __init__(self, value, left, right):
         super().__init__(value,left,right)
-        self.isNegative = isNegative
 
 class Parser:
 
@@ -51,6 +54,8 @@ class Parser:
     
     def parse(self):
         result = self.expression()
+
+        if(self.current != None): raise Exception("Some token was not used")
 
         return result
     
@@ -79,20 +84,16 @@ class Parser:
         
         return termNode
 
-    def term(self, negativeRecursion = False):
+    def term(self):
         number: Token | Any = self.current
-
-        if negativeRecursion:
-            self.advance()
-            return self.previous.lexeme
 
         if number.token_type == Token_Type.DIGITS:
             self.advance()
-            return TermNode(number.lexeme, None, None,False)
+            return TermNode(number.lexeme, None, None)
         
         elif number.token_type == Token_Type.MINUS:
             self.advance()
-            return TermNode(self.term(True), None, None, True)
+            return NegativeNode(self.term())
         
         elif number.token_type == Token_Type.OPEN_B:
             self.advance()
@@ -118,7 +119,7 @@ class Parser:
         else: 
             return self.printExpression(node.left) + '' + node.value  + '' + self.printExpression(node.right) 
 
-a = Lexer("10 + [(2 + 1) * 9]")
-b = Parser(a.token_list)
+# a = Lexer("10 + [(2 + 1) * [9 / 10]]")
+# b = Parser(a.token_list)
 
-print(b.printExpression(b.expressionNode))
+#print(b.printExpression(b.expressionNode))
